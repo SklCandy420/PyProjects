@@ -6,7 +6,7 @@ from urllib.parse import urljoin
 import sys
 
 # URL of the web page you want to extract
-url = "https://sklcandy420.github.io/"
+url = "Website URL"
 
 # initialize a session
 session = requests.Session()
