@@ -1,0 +1,1 @@
+The following script extracts the data required by user and writes it on the excel file. 
