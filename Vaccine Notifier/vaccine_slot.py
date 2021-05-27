@@ -2,6 +2,9 @@ from datetime import datetime
 from enum import Enum
 from typing import List
 from uuid import UUID
+from time import sleep
+from plyer import notification
+import requests
 
 
 class Vaccine(Enum):
@@ -93,9 +96,6 @@ class Center:
         return ret
 
 
-import requests
-
-
 def parse_centers(center_list):
     parsed_center_list = []
     for center in center_list:
@@ -149,9 +149,13 @@ def get_centers_by_district_id(district_id):
         return parse_centers(res.json()["centers"])
 
 
+title = "Slots"
+message = "Vaccine Slots Found"
+
 pinlist = [
-    "122002",
     "110025",
+    "110078",
+    "122002",
     "122503",
     "122017",
     "122102",
@@ -172,19 +176,29 @@ pinlist = [
     "203207",
 ]
 
-for pin in pinlist:
-    r = get_centers_by_pincode(pin)
-    for i in r:
-        if i.fee_type != "Free":
-            for j in i.sessions:
-                if j.min_age_limit == 18:
-                    if j.available_capacity > 0:
-                        if j.vaccine == "COVISHIELD":
-                            print(
-                                "<==============================================================>"
-                            )
-                            print(i)
-                            print(j)
-                            print(
-                                "<==============================================================>"
-                            )
+
+while True:
+    for pin in pinlist:
+        r = get_centers_by_pincode(pin)
+        for i in r:
+            if i.fee_type != "Free":
+                for j in i.sessions:
+                    if j.min_age_limit == 18:
+                        if j.available_capacity > 0:
+                            if j.vaccine == "COVISHIELD":
+                                print(
+                                    "<==============================================================>"
+                                )
+                                print(i)
+                                print(j)
+                                print(
+                                    "<==============================================================>"
+                                )
+                                notification.notify(
+                                    title=title,
+                                    message=message,
+                                    app_icon=None,
+                                    timeout=10,
+                                    toast=False,
+                                )
+    sleep(900)
