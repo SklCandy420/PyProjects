@@ -150,7 +150,6 @@ def get_centers_by_district_id(district_id):
 
 
 title = "Slots"
-message = "Vaccine Slots Found"
 
 pinlist = [
     "110025",
@@ -194,11 +193,13 @@ while True:
                                 print(
                                     "<==============================================================>"
                                 )
-                                notification.notify(
-                                    title=title,
-                                    message=message,
-                                    app_icon=None,
-                                    timeout=10,
-                                    toast=False,
-                                )
+                            notification.notify(
+                                title=title,
+                                message=str(j.available_capacity)
+                                + " Vaccine Slots Found at: "
+                                + str(i.pincode),
+                                app_icon=None,
+                                timeout=10,
+                                toast=False,
+                            )
     sleep(900)
